@@ -12,24 +12,33 @@ public:
             charStack.push(s[i]);
         }
 
-        char* result;
-        int resultPtr = 0;
         int starCount = 0;
+        vector<char> result;
 
         while (!charStack.empty()) {
             char top = charStack.top();
+            if (top == '*') {
+                starCount++;
+                charStack.pop();
+                continue;
+            }
             if (starCount == 0) {
-                result[resultPtr++] = top;
+                result.emplace_back(top);
+            } else {
+                starCount--;
             }
             charStack.pop();
         }
-        return "";
+
+        reverse(result.begin(), result.end());
+        auto resultString = string(result.begin(), result.end());
+        return resultString;
     }
 };
 
 int main() {
     auto solution = std::unique_ptr<RemoveStars>();
-    auto result = solution->removeStars("leet**cod*e");
+    auto result = solution->removeStars("erase*****");
     printf("result=%s\n", result.c_str());
     return 0;
 }
